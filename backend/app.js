@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 require("dotenv").config();
 
 //routes imports
@@ -10,6 +9,7 @@ const userRoutes = require("./routes/userRoutes");
 const connectDB = require("./db/connect");
 const PORT = process.env.PORT || 5000;
 const cookieParser = require("cookie-parser");
+const { app, server } = require("./socket/socket");
 
 //middlewares
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use("/api/users", userRoutes);
 const start = async () => {
   try {
     await connectDB();
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`server listening on port ${PORT}...`);
     });
   } catch (error) {

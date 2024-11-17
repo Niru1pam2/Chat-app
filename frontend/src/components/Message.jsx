@@ -4,14 +4,10 @@ import useConversation from "../store/useConversation";
 import { extractTime } from "../utils/extractTime";
 
 const Message = ({ message }) => {
-  console.log(message.message);
-
   const { authUser } = useAuthContext();
   const { selectedConversation } = useConversation();
   const fromMe = message.senderId === authUser._id;
-  console.log(message);
   const formattedTime = extractTime(message.createdAt);
-
   const chatClassName = fromMe ? "chat-end" : "chat-start";
   const profilePic = fromMe
     ? authUser?.profilePic
@@ -26,7 +22,7 @@ const Message = ({ message }) => {
           <img alt="Tailwind CSS chat bubble component" src={profilePic} />
         </div>
       </div>
-      <div className={`chat-bubble text-white ${bubbleBgColor} pb-2`}>
+      <div className={`chat-bubble text-white ${bubbleBgColor}  pb-2`}>
         {message.message}
       </div>
       <div className="chat-footer opacity-50 flex gap-1 items-center">
