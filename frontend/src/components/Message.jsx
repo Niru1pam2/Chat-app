@@ -1,24 +1,39 @@
 import React from "react";
+import { useAuthContext } from "../context/authContext";
+import useConversation from "../store/useConversation";
+import { extractTime } from "../utils/extractTime";
 
-function Message() {
+const Message = ({ message }) => {
+  console.log(message.message);
+
+  const { authUser } = useAuthContext();
+  const { selectedConversation } = useConversation();
+  const fromMe = message.senderId === authUser._id;
+  console.log(message);
+  const formattedTime = extractTime(message.createdAt);
+
+  const chatClassName = fromMe ? "chat-end" : "chat-start";
+  const profilePic = fromMe
+    ? authUser?.profilePic
+    : selectedConversation?.profilePic;
+
+  const bubbleBgColor = fromMe ? "bg-blue-500" : "";
+
   return (
-    <div className="chat chat-start">
+    <div className={`chat ${chatClassName}`}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <img
-            alt="Tailwind CSS chat bubble component"
-            src="https://avatar.iran.liara.run/public"
-          />
+          <img alt="Tailwind CSS chat bubble component" src={profilePic} />
         </div>
       </div>
-      <div className="chat-bubble text-white bg-blue-600">
-        You were the Chosen One!
+      <div className={`chat-bubble text-white ${bubbleBgColor} pb-2`}>
+        {message.message}
       </div>
       <div className="chat-footer opacity-50 flex gap-1 items-center">
-        12:42
+        {formattedTime}
       </div>
     </div>
   );
-}
+};
 
 export default Message;
